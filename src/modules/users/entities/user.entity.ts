@@ -5,19 +5,16 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Profile } from './profile.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('increment')
   id: string;
-
-  @Column()
-  Name: string;
-
-  @Column()
-  LastName: string;
 
   @Column({ length: 100, unique: true })
   email: string;
@@ -25,6 +22,10 @@ export class User {
   @Column()
   @Exclude()
   password: string;
+
+  @OneToOne(() => Profile, { cascade: true, eager: true })
+  @JoinColumn()
+  profile: Profile;
 
   @CreateDateColumn()
   created_at: Date;

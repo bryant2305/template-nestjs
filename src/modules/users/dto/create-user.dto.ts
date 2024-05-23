@@ -10,17 +10,35 @@ export class CreateUserDto {
   @IsString()
   @ApiProperty({ example: 'Damaris' })
   @IsNotEmpty()
-  Name: string;
+  firstName: string;
 
   @IsString()
   @ApiProperty({ example: 'Encarnacion' })
   @IsNotEmpty()
-  LastName: string;
+  lastName: string;
 
   @IsString()
   @ApiProperty({ example: 'Admin' })
   @IsNotEmpty()
   password: string;
+
+  @ApiProperty({ example: '200' })
+  @IsNotEmpty()
+  weight: number;
+
+  @ApiProperty({ example: '180' })
+  @IsNotEmpty()
+  height: number;
+
+  @IsString()
+  @ApiProperty({ example: 'weight loss' })
+  @IsNotEmpty()
+  health_goal: string;
+
+  @IsString()
+  @ApiProperty({ example: 'low' })
+  @IsNotEmpty()
+  activity_level: string;
 
   @IsString()
   @ApiProperty({ example: 'Admin' })
