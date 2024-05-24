@@ -1,25 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAlimentDto } from './dto/create-aliment.dto';
-import { UpdateAlimentDto } from './dto/update-aliment.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Aliment } from './entities/aliment.entity';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 
 @Injectable()
 export class AlimentService {
   constructor(
     @InjectRepository(Aliment)
-    private readonly alimetRepository: Repository<Aliment>,
+    private readonly alimentRepository: Repository<Aliment>,
   ) {}
+
   create(createAlimentDto: CreateAlimentDto) {
-    return this.alimetRepository.save(createAlimentDto);
+    return this.alimentRepository.save(createAlimentDto);
   }
 
-  findAll() {
-    return this.alimetRepository.find();
+  async findAll({
+    page = 1,
+    limit = 10,
+    name,
+  }: {
+    page?: number;
+    limit?: number;
+    name?: string;
+  }) {
+    // Convert page and limit to numbers if they are not already
+    page = Number(page);
+    limit = Number(limit);
+
+    const [result, total] = await this.alimentRepository.findAndCount({
+      where: name ? { name: Like(`%${name}%`) } : {},
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    return {
+      data: result,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   findOne(id: string) {
-    return this.alimetRepository.findOne({ where: { id } });
+    return this.alimentRepository.findOne({ where: { id } });
   }
 }
