@@ -1,18 +1,25 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { AlimentService } from './aliment.service';
 import { CreateAlimentDto } from './dto/create-aliment.dto';
-import { ApiTags, ApiQuery } from '@nestjs/swagger';
+import { ApiTags, ApiQuery, ApiOperation, ApiBearerAuth } from '@nestjs/swagger';
+import { JwtGuard } from 'src/auth/jwt-auth-guard';
 
 @Controller('aliment')
 @ApiTags('Aliment')
 export class AlimentController {
   constructor(private readonly alimentService: AlimentService) {}
 
+  @ApiOperation({ summary: 'create a aliment' })
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Post()
   create(@Body() createAlimentDto: CreateAlimentDto) {
     return this.alimentService.create(createAlimentDto);
   }
 
+  @ApiOperation({ summary: 'get all aliments' })
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get()
   @ApiQuery({
     name: 'page',
@@ -48,6 +55,9 @@ export class AlimentController {
     });
   }
 
+  @ApiOperation({ summary: 'find a aliment' })
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.alimentService.findOne(id);
