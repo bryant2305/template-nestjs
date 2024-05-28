@@ -7,14 +7,16 @@ import {
   DeleteDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Profile } from './profile.entity';
+import { RegisterFood } from 'src/modules/register-food/entities/register-food.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('increment')
-  id: string;
+  id: number;
 
   @Column({ length: 100, unique: true })
   email: string;
@@ -26,6 +28,9 @@ export class User {
   @OneToOne(() => Profile, { cascade: true, eager: true })
   @JoinColumn()
   profile: Profile;
+
+  @OneToMany(() => RegisterFood, (registerFood) => registerFood.user)
+  registerFood: RegisterFood[];
 
   @CreateDateColumn()
   created_at: Date;

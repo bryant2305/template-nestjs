@@ -43,7 +43,7 @@ export class AlimentService {
     };
   }
 
-  findOne(id: string) {
+  findOne(id: number) {
     return this.alimentRepository.findOne({ where: { id } });
   }
 }
