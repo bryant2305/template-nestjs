@@ -1,16 +1,8 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
 import { RegisterFoodDetailService } from './register-food-detail.service';
 import { CreateRegisterFoodDetailDto } from './dto/create-register-food-detail.dto';
-import { UpdateRegisterFoodDetailDto } from './dto/update-register-food-detail.dto';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtGuard } from 'src/auth/jwt-auth-guard';
 
 @Controller('register-food-detail')
 @ApiTags('Register food detail')
@@ -20,11 +12,15 @@ export class RegisterFoodDetailController {
   ) {}
 
   @Post()
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   create(@Body() createRegisterFoodDetailDto: CreateRegisterFoodDetailDto) {
     return this.registerFoodDetailService.create(createRegisterFoodDetailDto);
   }
   @Get(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   findOne(@Param('id') id: number) {
-    return this.registerFoodDetailService.findOne(id);
+    return this.registerFoodDetailService.findByRegisterFoodId(id);
   }
 }
