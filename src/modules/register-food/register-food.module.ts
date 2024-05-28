@@ -6,12 +6,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Aliment } from '../aliment/entities/aliment.entity';
 import { RegisterFoodDetail } from '../register-food-detail/entities/register-food-detail.entity';
 import { User } from '../users/entities/user.entity';
+import { RegisterFoodDetailService } from '../register-food-detail/register-food-detail.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([RegisterFood, Aliment, RegisterFoodDetail, User]),
   ],
   controllers: [RegisterFoodController],
-  providers: [RegisterFoodService],
+  providers: [RegisterFoodService, RegisterFoodDetailService],
 })
 export class RegisterFoodModule {}

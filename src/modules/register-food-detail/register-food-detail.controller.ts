@@ -17,10 +17,4 @@ export class RegisterFoodDetailController {
   create(@Body() createRegisterFoodDetailDto: CreateRegisterFoodDetailDto) {
     return this.registerFoodDetailService.create(createRegisterFoodDetailDto);
   }
-  @Get(':id')
-  @ApiBearerAuth()
-  @UseGuards(JwtGuard)
-  findOne(@Param('id') id: number) {
-    return this.registerFoodDetailService.findByRegisterFoodId(id);
-  }
 }
