@@ -74,4 +74,38 @@ export class RegisterFoodService {
   async findAll() {
     return this.registerFoodRepository.find();
   }
+
+  async calculateMacros(registerFoodId: number) {
+    const registerFood = await this.registerFoodRepository.findOne({
+      where: { id: registerFoodId },
+      relations: ['registerFoodDetail', 'registerFoodDetail.aliment'],
+    });
+
+    if (!registerFood) {
+      throw new Error('Registro de comida no encontrado');
+    }
+
+    let totalCalories = 0;
+    let totalProteins = 0;
+    let totalCarbs = 0;
+    let totalFats = 0;
+
+    registerFood.registerFoodDetail.forEach((detail) => {
+      const aliment = detail.aliment;
+      const cantidad = detail.cantidad;
+
+      totalCalories += (aliment.calories_portion * cantidad) / 100;
+      totalProteins += (aliment.protein_portion * cantidad) / 100;
+      totalCarbs += (aliment.carbos_portion * cantidad) / 100;
+      totalFats += (aliment.fats_portion * cantidad) / 100;
+    });
+
+    return {
+      message: 'your dish macros:',
+      totalCalories,
+      totalProteins,
+      totalCarbs,
+      totalFats,
+    };
+  }
 }

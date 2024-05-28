@@ -32,4 +32,9 @@ export class RegisterFoodController {
   findOne(@Param('id') id: number) {
     return this.registerFoodDetailService.findByRegisterFoodId(id);
   }
+
+  @Get(':id/macros')
+  calculateMacros(@Param('id') id: number) {
+    return this.registerFoodService.calculateMacros(id);
+  }
 }
