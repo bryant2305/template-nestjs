@@ -16,7 +16,7 @@ import { RegisterFood } from 'src/modules/register-food/entities/register-food.e
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('increment')
-  id: string;
+  id: number;
 
   @Column({ length: 100, unique: true })
   email: string;

@@ -8,6 +8,7 @@ import typeorm from './config/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { AlimentModule } from './modules/aliment/aliment.module';
 import { RegisterFoodModule } from './modules/register-food/register-food.module';
+import { RegisterFoodDetailModule } from './modules/register-food-detail/register-food-detail.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { RegisterFoodModule } from './modules/register-food/register-food.module
     AuthModule,
     AlimentModule,
     RegisterFoodModule,
+    RegisterFoodDetailModule,
     // EmailModule,
   ],
   controllers: [AppController],
