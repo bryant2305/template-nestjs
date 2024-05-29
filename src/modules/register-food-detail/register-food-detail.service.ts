@@ -24,7 +24,7 @@ export class RegisterFoodDetailService {
       relations: ['aliment'], // Incluir la relación con 'aliment'
       select: {
         id: true,
-        cantidad: true,
+        cantidad_gramos: true,
         aliment: {
           id: true,
           name: true, // Seleccionar el campo 'name' del alimento

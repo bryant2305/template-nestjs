@@ -10,5 +10,5 @@ export class AlimentoDto {
   @IsNotEmpty()
   @IsInt()
   @ApiProperty({ example: 100 })
-  cantidad: number;
+  cantidad_gramos: number;
 }

@@ -50,7 +50,7 @@ export class RegisterFoodService {
 
         const registerFoodDetail = new RegisterFoodDetail();
         registerFoodDetail.aliment = aliment;
-        registerFoodDetail.cantidad = alimentoDto.cantidad;
+        registerFoodDetail.cantidad_gramos = alimentoDto.cantidad_gramos;
         registerFoodDetail.registerFood = registerFood;
         return registerFoodDetail;
       }),
@@ -66,7 +66,7 @@ export class RegisterFoodService {
       fecha_registro,
       alimentos: registerFoodDetails.map((detail) => ({
         id_alimento: detail.aliment.id,
-        cantidad: detail.cantidad,
+        cantidad: detail.cantidad_gramos,
       })),
     };
   }
@@ -92,12 +92,12 @@ export class RegisterFoodService {
 
     registerFood.registerFoodDetail.forEach((detail) => {
       const aliment = detail.aliment;
-      const cantidad = detail.cantidad;
+      const cantidad = detail.cantidad_gramos;
 
-      totalCalories += (aliment.calories_portion * cantidad) / 100;
-      totalProteins += (aliment.protein_portion * cantidad) / 100;
-      totalCarbs += (aliment.carbos_portion * cantidad) / 100;
-      totalFats += (aliment.fats_portion * cantidad) / 100;
+      totalCalories += (aliment.calories_100g * cantidad) / 100;
+      totalProteins += (aliment.protein_100g * cantidad) / 100;
+      totalCarbs += (aliment.carbos_100g * cantidad) / 100;
+      totalFats += (aliment.fats_100g * cantidad) / 100;
     });
 
     return {
