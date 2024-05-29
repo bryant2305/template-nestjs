@@ -19,5 +19,5 @@ export class RegisterFoodDetail {
   aliment: Aliment;
 
   @Column()
-  cantidad: number;
+  cantidad_gramos: number;
 }

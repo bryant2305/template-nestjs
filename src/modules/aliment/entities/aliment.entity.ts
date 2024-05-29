@@ -21,16 +21,16 @@ export class Aliment {
   description: string;
 
   @Column()
-  calories_portion: number;
+  calories_100g: number;
 
   @Column()
-  protein_portion: number;
+  protein_100g: number;
 
   @Column()
-  carbos_portion: number;
+  carbos_100g: number;
 
   @Column()
-  fats_portion: number;
+  fats_100g: number;
 
   @OneToMany(
     () => RegisterFoodDetail,
