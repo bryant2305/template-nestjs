@@ -22,4 +22,7 @@ export class Profile {
 
   @Column()
   activity_level: string;
+
+  @Column({ nullable: true })
+  profileImage: string;
 }

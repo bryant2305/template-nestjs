@@ -1,20 +1,43 @@
-import { Controller, Get, Post, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UseGuards,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt-auth-guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { multerOptions } from 'src/config/upload.config';
 
-@Controller('users')
 @ApiTags('User')
+@Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @ApiOperation({ summary: 'create a user' })
-  @ApiBearerAuth()
-  @UseGuards(JwtGuard)
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  @UseInterceptors(FileInterceptor('profileImage', multerOptions))
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Create User',
+    type: CreateUserDto,
+  })
+  async create(
+    @Body() createUserDto: CreateUserDto,
+    @UploadedFile() profileImage: Express.Multer.File,
+  ) {
+    const result = await this.usersService.create(createUserDto, profileImage);
+    return result;
   }
 
   @Get()

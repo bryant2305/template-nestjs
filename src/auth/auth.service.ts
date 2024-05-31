@@ -17,7 +17,10 @@ export class AuthService {
     private readonly jwtService: JwtService, // I
   ) {}
 
-  async register(registerDto: CreateUserDto) {
+  async register(
+    registerDto: CreateUserDto,
+    profileImage: Express.Multer.File,
+  ) {
     try {
       const { email, password, passwordConfirmation } = registerDto;
 
@@ -34,11 +37,14 @@ export class AuthService {
       }
 
       const hashedPassword = await this.userService.hashPassword(password);
-      const newUser = await this.userService.create({
-        ...registerDto,
-        password: hashedPassword,
-        passwordConfirmation: hashedPassword,
-      });
+      const newUser = await this.userService.create(
+        {
+          ...registerDto,
+          password: hashedPassword,
+          passwordConfirmation: hashedPassword,
+        },
+        profileImage,
+      );
 
       // Genera el token
       const payload = { id: newUser.id, email: newUser.email };
