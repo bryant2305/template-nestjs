@@ -12,7 +12,10 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
+  async create(
+    createUserDto: CreateUserDto,
+    profileImage: Express.Multer.File,
+  ): Promise<Partial<User>> {
     const found = await this.userRepository.findOne({
       where: { email: createUserDto.email },
     });
@@ -37,6 +40,7 @@ export class UsersService {
           health_goal: createUserDto.health_goal,
           weight: createUserDto.weight,
           height: createUserDto.height,
+          profileImage: profileImage.path,
         },
       };
       await this.userRepository.save(createUser);
