@@ -16,7 +16,6 @@ export class NutritionService {
   ) {
     this.apiKey = this.configService.get<string>('NUTRITIONIX_API_KEY');
     this.appId = this.configService.get<string>('NUTRITIONIX_APP_ID');
-    this.url = this.configService.get<string>('NUTRITION_URL');
   }
 
   getNutritionData(food: string) {
