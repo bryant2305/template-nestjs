@@ -10,6 +10,7 @@ import { AlimentModule } from './modules/aliment/aliment.module';
 import { RegisterFoodModule } from './modules/register-food/register-food.module';
 import { RegisterFoodDetailModule } from './modules/register-food-detail/register-food-detail.module';
 import { NutritionModule } from './modules/nutrition/nutrition.module';
+import { MealModule } from './modules/meal/meal.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { NutritionModule } from './modules/nutrition/nutrition.module';
     RegisterFoodModule,
     RegisterFoodDetailModule,
     NutritionModule,
+    MealModule,
     // EmailModule,
   ],
   controllers: [AppController],
