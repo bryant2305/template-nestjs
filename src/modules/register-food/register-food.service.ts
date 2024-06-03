@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RegisterFood } from './entities/register-food.entity';
 import { CreateRegisterFoodDto } from './dto/create-register-food.dto';
-import { User } from 'src/modules/users/entities/user.entity';
-import { Aliment } from 'src/modules/aliment/entities/aliment.entity';
 import { RegisterFoodDetail } from '../register-food-detail/entities/register-food-detail.entity';
+import { NutritionWrapper } from '../nutrition/nutrition.wrapper';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class RegisterFoodService {
@@ -14,98 +14,39 @@ export class RegisterFoodService {
     private readonly registerFoodRepository: Repository<RegisterFood>,
     @InjectRepository(RegisterFoodDetail)
     private readonly registerFoodDetailRepository: Repository<RegisterFoodDetail>,
+    private readonly nutritionWrapper: NutritionWrapper,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    @InjectRepository(Aliment)
-    private readonly alimentRepository: Repository<Aliment>,
   ) {}
 
   async create(createRegisterFoodDto: CreateRegisterFoodDto) {
-    const { id_usuario, fecha_registro, alimentos } = createRegisterFoodDto;
-
-    // Encontrar el usuario
     const user = await this.userRepository.findOne({
-      where: { id: id_usuario },
+      where: { id: createRegisterFoodDto.id_usuario },
     });
+
     if (!user) {
-      throw new Error('Usuario no encontrado');
+      throw new Error('User not found');
     }
 
-    // Crear el registro de comida
     const registerFood = new RegisterFood();
     registerFood.user = user;
-    registerFood.created_at = new Date(fecha_registro);
+    registerFood.registerFoodDetail = [];
 
-    // Crear los detalles de alimentos
-    const registerFoodDetails = await Promise.all(
-      alimentos.map(async (alimentoDto) => {
-        const aliment = await this.alimentRepository.findOne({
-          where: { id: alimentoDto.id_alimento },
-        });
-        if (!aliment) {
-          throw new Error(
-            `Alimento con ID ${alimentoDto.id_alimento} no encontrado`,
-          );
-        }
+    for (const food of createRegisterFoodDto.foods) {
+      const nutritionDetailsArray =
+        await this.nutritionWrapper.getNutritionDetails(food.food);
 
-        const registerFoodDetail = new RegisterFoodDetail();
-        registerFoodDetail.aliment = aliment;
-        registerFoodDetail.cantidad_gramos = alimentoDto.cantidad_gramos;
-        registerFoodDetail.registerFood = registerFood;
-        return registerFoodDetail;
-      }),
-    );
+      const nutritionDetails = nutritionDetailsArray[0];
+      const foodDetail = new RegisterFoodDetail();
+      foodDetail.food = food.food;
+      foodDetail.calories = nutritionDetails.calories;
+      foodDetail.proteins = nutritionDetails.proteins;
+      foodDetail.carbs = nutritionDetails.carbs;
+      foodDetail.fats = nutritionDetails.fats;
 
-    // Guardar el registro de comida junto con los detalles
-    registerFood.registerFoodDetail = registerFoodDetails;
-    await this.registerFoodRepository.save(registerFood);
-    await this.registerFoodDetailRepository.save(registerFoodDetails);
-
-    return {
-      id_usuario,
-      fecha_registro,
-      alimentos: registerFoodDetails.map((detail) => ({
-        id_alimento: detail.aliment.id,
-        cantidad: detail.cantidad_gramos,
-      })),
-    };
-  }
-
-  async findAll() {
-    return this.registerFoodRepository.find();
-  }
-
-  async calculateMacros(registerFoodId: number) {
-    const registerFood = await this.registerFoodRepository.findOne({
-      where: { id: registerFoodId },
-      relations: ['registerFoodDetail', 'registerFoodDetail.aliment'],
-    });
-
-    if (!registerFood) {
-      throw new Error('Registro de comida no encontrado');
+      registerFood.registerFoodDetail.push(foodDetail);
     }
 
-    let totalCalories = 0;
-    let totalProteins = 0;
-    let totalCarbs = 0;
-    let totalFats = 0;
-
-    registerFood.registerFoodDetail.forEach((detail) => {
-      const aliment = detail.aliment;
-      const cantidad = detail.cantidad_gramos;
-
-      totalCalories += (aliment.calories_100g * cantidad) / 100;
-      totalProteins += (aliment.protein_100g * cantidad) / 100;
-      totalCarbs += (aliment.carbos_100g * cantidad) / 100;
-      totalFats += (aliment.fats_100g * cantidad) / 100;
-    });
-
-    return {
-      message: 'your dish macros:',
-      totalCalories,
-      totalProteins,
-      totalCarbs,
-      totalFats,
-    };
+    return this.registerFoodRepository.save(registerFood);
   }
 }

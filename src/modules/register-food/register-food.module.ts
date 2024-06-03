@@ -7,10 +7,12 @@ import { Aliment } from '../aliment/entities/aliment.entity';
 import { RegisterFoodDetail } from '../register-food-detail/entities/register-food-detail.entity';
 import { User } from '../users/entities/user.entity';
 import { RegisterFoodDetailService } from '../register-food-detail/register-food-detail.service';
+import { NutritionModule } from '../nutrition/nutrition.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([RegisterFood, Aliment, RegisterFoodDetail, User]),
+    NutritionModule,
   ],
   controllers: [RegisterFoodController],
   providers: [RegisterFoodService, RegisterFoodDetailService],

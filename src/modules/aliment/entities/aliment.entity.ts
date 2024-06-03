@@ -32,11 +32,11 @@ export class Aliment {
   @Column()
   fats_100g: number;
 
-  @OneToMany(
-    () => RegisterFoodDetail,
-    (registerFoodDetail) => registerFoodDetail.aliment,
-  )
-  registerFoodDetail: RegisterFoodDetail[];
+  // @OneToMany(
+  //   () => RegisterFoodDetail,
+  //   (registerFoodDetail) => registerFoodDetail.aliment,
+  // )
+  // registerFoodDetail: RegisterFoodDetail[];
 
   @CreateDateColumn()
   created_at: Date;
