@@ -21,6 +21,9 @@ export class RegisterFoodDetail {
   @Column('float')
   fats: number;
 
+  @Column('float')
+  cuantity: number;
+
   @ManyToOne(
     () => RegisterFood,
     (registerFood) => registerFood.registerFoodDetail,

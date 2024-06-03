@@ -39,6 +39,7 @@ export class RegisterFoodService {
       const nutritionDetails = nutritionDetailsArray[0];
       const foodDetail = new RegisterFoodDetail();
       foodDetail.food = food.food;
+      foodDetail.cuantity = food.cuantity;
       foodDetail.calories = nutritionDetails.calories;
       foodDetail.proteins = nutritionDetails.proteins;
       foodDetail.carbs = nutritionDetails.carbs;
