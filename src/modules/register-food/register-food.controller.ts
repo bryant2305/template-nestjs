@@ -21,6 +21,8 @@ export class RegisterFoodController {
   ) {}
 
   @Post()
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @ApiOperation({ summary: 'Create a new meal with foods' })
   @ApiResponse({
     status: 201,
@@ -46,6 +48,8 @@ export class RegisterFoodController {
   //   return this.registerFoodDetailService.findByRegisterFoodId(id);
   // }
 
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
   @Get(':id/calculate-macros')
   async calculateMacros(@Param('id') id: number) {
     // this.logger.log(`Calculating macros for RegisterFood ID: ${id}`);

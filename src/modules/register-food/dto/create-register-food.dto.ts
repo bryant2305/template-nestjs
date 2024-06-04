@@ -9,7 +9,6 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { CreateRegisterFoodDetailDto } from 'src/modules/register-food-detail/dto/create-register-food-detail.dto';
-import { RegisterFoodDetail } from 'src/modules/register-food-detail/entities/register-food-detail.entity';
 
 export class CreateRegisterFoodDto {
   @IsNotEmpty()
