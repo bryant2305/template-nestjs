@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, UseGuards } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { RegisterFoodDetailService } from './register-food-detail.service';
 import { CreateRegisterFoodDetailDto } from './dto/create-register-food-detail.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';

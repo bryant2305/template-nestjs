@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RegisterFood } from './entities/register-food.entity';
@@ -25,7 +25,7 @@ export class RegisterFoodService {
     });
 
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
 
     const registerFood = new RegisterFood();
@@ -58,7 +58,7 @@ export class RegisterFoodService {
     });
 
     if (!registerFood) {
-      throw new Error('Registro de comida no encontrado');
+      throw new NotFoundException('Registro de comida no encontrado');
     }
 
     let totalCalories = 0;
@@ -86,5 +86,21 @@ export class RegisterFoodService {
       totalCarbs,
       totalFats,
     };
+  }
+
+  async findByRegisterFoodId(registerFoodId: number) {
+    return this.registerFoodDetailRepository.find({
+      where: { registerFood: { id: registerFoodId } },
+      relations: ['registerFood'],
+      select: {
+        id: true,
+        food: true,
+        cuantity: true,
+        proteins: true,
+        carbs: true,
+        fats: true,
+        calories: true,
+      },
+    });
   }
 }
