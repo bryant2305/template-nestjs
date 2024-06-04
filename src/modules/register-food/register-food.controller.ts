@@ -1,7 +1,13 @@
 import { Controller, Get, Post, Body, UseGuards, Param } from '@nestjs/common';
 import { RegisterFoodService } from './register-food.service';
 import { CreateRegisterFoodDto } from './dto/create-register-food.dto';
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/jwt-auth-guard';
 import { RegisterFoodDetailService } from '../register-food-detail/register-food-detail.service';
 import { RegisterFood } from './entities/register-food.entity';
@@ -40,8 +46,9 @@ export class RegisterFoodController {
   //   return this.registerFoodDetailService.findByRegisterFoodId(id);
   // }
 
-  // @Get(':id/macros')
-  // calculateMacros(@Param('id') id: number) {
-  //   return this.registerFoodService.calculateMacros(id);
-  // }
+  @Get(':id/calculate-macros')
+  async calculateMacros(@Param('id') id: number) {
+    // this.logger.log(`Calculating macros for RegisterFood ID: ${id}`);
+    return this.registerFoodService.calculateMacros(id);
+  }
 }
