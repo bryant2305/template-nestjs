@@ -35,18 +35,12 @@ export class RegisterFoodController {
   ): Promise<RegisterFood> {
     return this.registerFoodService.create(createRegisterFoodDto);
   }
-  // @Get()
-  // @ApiBearerAuth()
-  // @UseGuards(JwtGuard)
-  // findAll() {
-  //   return this.registerFoodService.findAll();
-  // }
-  // @Get(':id')
-  // @ApiBearerAuth()
-  // @UseGuards(JwtGuard)
-  // findOne(@Param('id') id: number) {
-  //   return this.registerFoodDetailService.findByRegisterFoodId(id);
-  // }
+  @Get(':id')
+  @ApiBearerAuth()
+  @UseGuards(JwtGuard)
+  findOne(@Param('id') id: number) {
+    return this.registerFoodService.findByRegisterFoodId(id);
+  }
 
   @ApiBearerAuth()
   @UseGuards(JwtGuard)
