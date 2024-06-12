@@ -19,7 +19,6 @@ import {
 import { JwtGuard } from 'src/auth/jwt-auth-guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/config/upload.config';
-import { AdminGuard } from 'src/auth/admin-guard';
 
 @ApiTags('User')
 @Controller('users')
@@ -33,7 +32,6 @@ export class UsersController {
     description: 'Create User',
     type: CreateUserDto,
   })
-  @UseGuards(JwtGuard, AdminGuard)
   async create(
     @Body() createUserDto: CreateUserDto,
     @UploadedFile() profileImage: Express.Multer.File,
@@ -45,7 +43,7 @@ export class UsersController {
   @Get()
   @ApiOperation({ summary: 'get all users' })
   @ApiBearerAuth()
-  @UseGuards(JwtGuard, AdminGuard)
+  @UseGuards(JwtGuard)
   findAll() {
     return this.usersService.findAll();
   }
