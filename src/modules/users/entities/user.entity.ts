@@ -8,10 +8,12 @@ import {
   OneToOne,
   JoinColumn,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Profile } from './profile.entity';
 import { RegisterFood } from 'src/modules/register-food/entities/register-food.entity';
+import { Role } from 'src/modules/roles/entities/role.entity';
 
 @Entity()
 export class User {
@@ -28,6 +30,10 @@ export class User {
   @OneToOne(() => Profile, { cascade: true, eager: true })
   @JoinColumn()
   profile: Profile;
+
+  @ManyToOne(() => Role, (m) => m.users, { eager: true })
+  @JoinColumn({ name: 'role_id' })
+  role: Role;
 
   @OneToMany(() => RegisterFood, (registerFood) => registerFood.user)
   registerFood: RegisterFood[];

@@ -11,6 +11,7 @@ import { RegisterFoodDetailModule } from './modules/register-food-detail/registe
 import { NutritionModule } from './modules/nutrition/nutrition.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { NotificationModule } from './notification/notification.module';
+import { RolesModule } from './modules/roles/roles.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { NotificationModule } from './notification/notification.module';
     NutritionModule,
     FirebaseModule,
     NotificationModule,
+    RolesModule,
     // EmailModule,
   ],
   controllers: [AppController],
