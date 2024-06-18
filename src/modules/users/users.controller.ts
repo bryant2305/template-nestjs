@@ -26,22 +26,6 @@ import { AdminGuard } from 'src/auth/admin-guard';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  @UseInterceptors(FileInterceptor('profileImage', multerOptions))
-  @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    description: 'Create User',
-    type: CreateUserDto,
-  })
-  @UseGuards(JwtGuard, AdminGuard)
-  async create(
-    @Body() createUserDto: CreateUserDto,
-    @UploadedFile() profileImage: Express.Multer.File,
-  ) {
-    const result = await this.usersService.create(createUserDto, profileImage);
-    return result;
-  }
-
   @Get()
   @ApiOperation({ summary: 'get all users' })
   @ApiBearerAuth()
