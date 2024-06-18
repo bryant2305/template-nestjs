@@ -19,3 +19,4 @@ export default class RoleSeeder implements Seeder {
     await roleRepository.save(users);
   }
 }
+//
