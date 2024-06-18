@@ -15,7 +15,7 @@ export default class UserSeeder implements Seeder {
       where: { id: 1 },
     });
 
-    const password = 'admin123';
+    const password = 'Admin123';
     const hashedPassword = await bcrypt.hash(password, 10);  // Hashea la contraseña con bcrypt
 
     const users = repository.create([
