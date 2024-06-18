@@ -19,31 +19,17 @@ import {
 import { JwtGuard } from 'src/auth/jwt-auth-guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/config/upload.config';
+import { AdminGuard } from 'src/auth/admin-guard';
 
 @ApiTags('User')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
-  @UseInterceptors(FileInterceptor('profileImage', multerOptions))
-  @ApiConsumes('multipart/form-data')
-  @ApiBody({
-    description: 'Create User',
-    type: CreateUserDto,
-  })
-  async create(
-    @Body() createUserDto: CreateUserDto,
-    @UploadedFile() profileImage: Express.Multer.File,
-  ) {
-    const result = await this.usersService.create(createUserDto, profileImage);
-    return result;
-  }
-
   @Get()
   @ApiOperation({ summary: 'get all users' })
   @ApiBearerAuth()
-  @UseGuards(JwtGuard)
+  @UseGuards(JwtGuard, AdminGuard)
   findAll() {
     return this.usersService.findAll();
   }

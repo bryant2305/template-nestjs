@@ -1,5 +1,6 @@
 import { registerAs } from '@nestjs/config';
 import { config as dotenvConfig } from 'dotenv';
+import InitSeeder from 'src/database/seeds/init.seeder';
 import { DataSource, DataSourceOptions } from 'typeorm';
 import { SeederOptions } from 'typeorm-extension';
 
@@ -21,7 +22,7 @@ const config = {
   cli: {
     migrationsDir: './dist/database/migrations/*.{ts,js}',
   },
-  // seeds: [InitSeeder],
+  seeds: [InitSeeder],
 };
 
 export default registerAs('typeorm', () => config);
