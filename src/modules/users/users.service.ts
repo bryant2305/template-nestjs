@@ -74,4 +74,9 @@ export class UsersService {
   findAll() {
     return this.userRepository.find();
   }
+  // En tu servicio de usuarios
+  async getUserById(userId: number) {
+    // Recupera el usuario desde la base de datos
+    return await this.userRepository.findOne({ where: { id: userId } });
+  }
 }

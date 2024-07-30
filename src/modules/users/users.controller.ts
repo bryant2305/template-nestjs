@@ -33,4 +33,12 @@ export class UsersController {
   findAll() {
     return this.usersService.findAll();
   }
+
+  @Get('user')
+  @ApiOperation({ summary: 'get a user' })
+  // @ApiBearerAuth()
+  // @UseGuards(JwtGuard, AdminGuard)
+  findOneUser(userId: number) {
+    return this.usersService.getUserById(userId);
+  }
 }

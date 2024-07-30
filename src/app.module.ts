@@ -10,6 +10,7 @@ import { RegisterFoodModule } from './modules/register-food/register-food.module
 import { RegisterFoodDetailModule } from './modules/register-food-detail/register-food-detail.module';
 import { NutritionModule } from './modules/nutrition/nutrition.module';
 import { FirebaseModule } from './firebase/firebase.module';
+import { NovuNotificationsModule } from './novu-notifications/novu-notifications.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { FirebaseModule } from './firebase/firebase.module';
     RegisterFoodDetailModule,
     NutritionModule,
     FirebaseModule,
+    NovuNotificationsModule,
     // EmailModule,
   ],
   controllers: [AppController],
