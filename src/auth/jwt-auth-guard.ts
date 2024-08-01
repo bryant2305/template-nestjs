@@ -16,6 +16,7 @@ export class JwtGuard extends AuthGuard('jwt') {
       context.getHandler(),
     );
     if (user) return user;
+    request.user = user;
     if (allowAny) return true;
     throw new UnauthorizedException();
   }

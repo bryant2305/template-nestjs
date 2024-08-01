@@ -38,6 +38,7 @@ export class UsersService {
           lastName: createUserDto.lastName,
           activity_level: createUserDto.activity_level,
           health_goal: createUserDto.health_goal,
+          phone: createUserDto.phone,
           weight: createUserDto.weight,
           height: createUserDto.height,
           profileImage: profileImage.path,
@@ -73,5 +74,9 @@ export class UsersService {
 
   findAll() {
     return this.userRepository.find();
+  }
+  // En tu servicio de usuarios
+  async getUserById(userId: number): Promise<User> {
+    return await this.userRepository.findOne({ where: { id: userId } });
   }
 }
