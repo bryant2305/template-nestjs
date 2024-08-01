@@ -1,6 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  UseGuards,
+  Request,
+  Req,
+} from '@nestjs/common';
 import { NovuNotificationsService } from './novu-notifications.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { JwtGuard } from 'src/auth/jwt-auth-guard';
 
 @Controller('novu-notifications')
 export class NovuNotificationsController {
@@ -9,8 +17,11 @@ export class NovuNotificationsController {
   ) {}
 
   @ApiTags('notify-me')
+  @UseGuards(JwtGuard)
+  @ApiBearerAuth()
   @Get('send')
-  async sendNotification(userId: number) {
+  async sendNotification(@Request() req: any) {
+    const userId = req.user.id;
     return this.novuNotificationsService.sendNotification(userId);
   }
 }

@@ -30,6 +30,11 @@ export class CreateUserDto {
   height: number;
 
   @IsString()
+  @ApiProperty({ example: 'phone' })
+  @IsNotEmpty()
+  phone: string;
+
+  @IsString()
   @ApiProperty({ example: 'weight loss' })
   @IsNotEmpty()
   health_goal: string;

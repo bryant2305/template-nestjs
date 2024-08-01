@@ -6,6 +6,7 @@ import {
   UseGuards,
   UseInterceptors,
   UploadedFile,
+  Param,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -34,11 +35,9 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get('user')
-  @ApiOperation({ summary: 'get a user' })
-  // @ApiBearerAuth()
-  // @UseGuards(JwtGuard, AdminGuard)
-  findOneUser(userId: number) {
+  @Get(':id')
+  @ApiOperation({ summary: 'Get a user by ID' })
+  findOne(@Param('id') userId: number) {
     return this.usersService.getUserById(userId);
   }
 }
