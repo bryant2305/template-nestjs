@@ -11,9 +11,11 @@ import { RegisterFoodDetailModule } from './modules/register-food-detail/registe
 import { NutritionModule } from './modules/nutrition/nutrition.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { NovuNotificationsModule } from './novu-notifications/novu-notifications.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
+    EventEmitterModule.forRoot(),
     ConfigModule.forRoot({ isGlobal: true, cache: true, load: [typeorm] }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],

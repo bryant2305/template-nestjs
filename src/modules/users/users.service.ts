@@ -4,12 +4,15 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { UserCreatedEvent } from './users-event';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly eventEmitter: EventEmitter2,
   ) {}
 
   async create(
@@ -44,7 +47,13 @@ export class UsersService {
           profileImage: profileImage.path,
         },
       };
-      await this.userRepository.save(createUser);
+      const savedUser = await this.userRepository.save(createUser);
+
+      // Emitir evento de usuario creado
+      this.eventEmitter.emit(
+        'user.created',
+        new UserCreatedEvent(savedUser.id),
+      );
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, passwordConfirmation, ...userResponse } = createUserDto;

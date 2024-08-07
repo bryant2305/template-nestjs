@@ -1,14 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Novu } from '@novu/node';
-import { Profile } from 'src/modules/users/entities/profile.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import { UsersService } from 'src/modules/users/users.service';
 import { UtilsService } from 'src/utils/utils.service';
 import { Repository } from 'typeorm';
+import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
+import { UserCreatedEvent } from 'src/modules/users/users-event';
 
 @Injectable()
-export class NovuNotificationsService {
+export class NovuNotificationsService implements OnModuleInit {
   private readonly novu: Novu;
 
   constructor(
@@ -16,8 +17,15 @@ export class NovuNotificationsService {
     private readonly utilsService: UtilsService,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly eventEmitter: EventEmitter2,
   ) {
     this.novu = new Novu(process.env.NOVU_API_KEY);
+  }
+
+  onModuleInit() {
+    this.eventEmitter.on('user.created', async (event: UserCreatedEvent) => {
+      await this.sendNotification(event.userId);
+    });
   }
 
   async sendNotification(userId: number) {
@@ -42,7 +50,7 @@ export class NovuNotificationsService {
 
       const response = await this.novu.trigger('demo-verify-otp', {
         to: {
-          subscriberId: '66a92b6740ba3217721d2dde',
+          subscriberId: '66b38f8faa4218d126b20170',
           email: email,
           phone: formattedPhoneNumber,
         },
