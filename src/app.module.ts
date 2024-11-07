@@ -12,6 +12,7 @@ import { NutritionModule } from './modules/nutrition/nutrition.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { NovuNotificationsModule } from './novu-notifications/novu-notifications.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     NutritionModule,
     FirebaseModule,
     NovuNotificationsModule,
+    NotificationModule,
     // EmailModule,
   ],
   controllers: [AppController],
