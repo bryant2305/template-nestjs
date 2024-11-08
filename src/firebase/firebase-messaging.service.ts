@@ -29,12 +29,14 @@ export class FirebaseMessagingService {
       notification: {
         title,
         body,
-        image: 'https://your-server.com/path-to-your-icon.png',
+        // eslint-disable-next-line prettier/prettier
+        image: 'https://cdn4.iconfinder.com/data/icons/google-i-o-2016/512/google_firebase-2-1024.png',
       } as NotificationWithImage,
       data: {
         title,
         body,
-        image: 'https://your-server.com/path-to-your-icon.png',
+        image:
+          'https://cdn4.iconfinder.com/data/icons/google-i-o-2016/512/google_firebase-2-1024.png',
         ...data,
       },
       tokens,
