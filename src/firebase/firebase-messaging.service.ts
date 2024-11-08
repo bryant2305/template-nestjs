@@ -1,7 +1,10 @@
-// src/firebase/firebase-messaging.service.ts
 import { Injectable } from '@nestjs/common';
 import { FirebaseService } from './firebase.service';
 import * as admin from 'firebase-admin';
+
+interface NotificationWithImage extends admin.messaging.Notification {
+  image?: string;
+}
 
 @Injectable()
 export class FirebaseMessagingService {
@@ -26,13 +29,21 @@ export class FirebaseMessagingService {
       notification: {
         title,
         body,
+        // eslint-disable-next-line prettier/prettier
+        image: 'https://cdn4.iconfinder.com/data/icons/google-i-o-2016/512/google_firebase-2-1024.png',
+      } as NotificationWithImage,
+      data: {
+        title,
+        body,
+        image:
+          'https://cdn4.iconfinder.com/data/icons/google-i-o-2016/512/google_firebase-2-1024.png',
+        ...data,
       },
-      data: data as { [key: string]: string },
       tokens,
     };
 
     try {
-      const response = await this.messaging.sendMulticast(message);
+      const response = await this.messaging.sendEachForMulticast(message);
       return {
         error: false,
         success: response.successCount,
