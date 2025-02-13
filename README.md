@@ -14,4 +14,3 @@ npm run start:dev
 correr los seeders : npm run seed:run
 
 Levantar: npm run start:dev
-
