@@ -15,10 +15,7 @@ export class UsersService {
     private readonly eventEmitter: EventEmitter2,
   ) {}
 
-  async create(
-    createUserDto: CreateUserDto,
-    profileImage: Express.Multer.File,
-  ): Promise<Partial<User>> {
+  async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
     const found = await this.userRepository.findOne({
       where: { email: createUserDto.email },
     });
@@ -44,7 +41,7 @@ export class UsersService {
           phone: createUserDto.phone,
           weight: createUserDto.weight,
           height: createUserDto.height,
-          profileImage: profileImage.path,
+          profileImage: createUserDto.profileImage,
         },
       };
       const savedUser = await this.userRepository.save(createUser);

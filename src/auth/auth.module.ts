@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './auth-guard-token';
 import { JwtStrategy } from './jwt.strategy';
 import { UsersModule } from 'src/modules/users/users.module';
+import { CloudinaryConfig } from 'src/config/cloudinary.config';
 
 @Module({
   imports: [
@@ -20,9 +21,9 @@ import { UsersModule } from 'src/modules/users/users.module';
       }),
       inject: [ConfigService],
     }),
-    UsersModule, // Asegúrate de importar UsersModule
+    UsersModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtStrategy, AuthGuard], // Elimina UsersService de providers
+  providers: [AuthService, JwtStrategy, AuthGuard, CloudinaryConfig],
 })
 export class AuthModule {}

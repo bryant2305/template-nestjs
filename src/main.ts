@@ -12,8 +12,8 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const config = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('Fitness Api')
-    .setDescription('An Api FOR HEALTY')
+    .setTitle('Plantilla')
+    .setDescription('Plantilla para NestJS')
     .setVersion('1.0')
     .build();
   app.setGlobalPrefix('api');
@@ -25,8 +25,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  // Servir la carpeta de uploads
-  app.useStaticAssets(join(__dirname, '..', 'uploads'));
+  // // Servir la carpeta de uploads
+  // app.useStaticAssets(join(__dirname, '..', 'uploads'));
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
