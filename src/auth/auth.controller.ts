@@ -43,7 +43,7 @@ export class AuthController {
     @Body() registerDto: CreateUserDto,
     @UploadedFile() profileImage: Express.Multer.File,
   ) {
-    await this.cloudinaryConfig.uploadImage(profileImage);
-    return this.authService.register(registerDto);
+    const imageUrl = await this.cloudinaryConfig.uploadImage(profileImage);
+    return this.authService.register(registerDto, imageUrl);
   }
 }

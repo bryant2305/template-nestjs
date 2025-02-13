@@ -17,7 +17,7 @@ export class AuthService {
     private readonly jwtService: JwtService, // I
   ) {}
 
-  async register(registerDto: CreateUserDto) {
+  async register(registerDto: CreateUserDto, imageUrl: string) {
     try {
       const { email, password, passwordConfirmation } = registerDto;
 
@@ -38,6 +38,7 @@ export class AuthService {
         ...registerDto,
         password: hashedPassword,
         passwordConfirmation: hashedPassword,
+        profileImage: imageUrl,
       });
 
       // Genera el token
