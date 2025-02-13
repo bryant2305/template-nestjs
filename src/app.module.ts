@@ -6,9 +6,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './modules/users/users.module';
 import typeorm from './config/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { RegisterFoodModule } from './modules/register-food/register-food.module';
-import { RegisterFoodDetailModule } from './modules/register-food-detail/register-food-detail.module';
-import { NutritionModule } from './modules/nutrition/nutrition.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
@@ -23,9 +20,6 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     // AuthModule,
     UsersModule,
     AuthModule,
-    RegisterFoodModule,
-    RegisterFoodDetailModule,
-    NutritionModule,
     // EmailModule,
   ],
   controllers: [AppController],
