@@ -16,12 +16,12 @@ export default class UserSeeder implements Seeder {
     });
 
     const password = 'Admin123';
-    const hashedPassword = await bcrypt.hash(password, 10);  // Hashea la contraseña con bcrypt
+    const hashedPassword = await bcrypt.hash(password, 10); // Hashea la contraseña con bcrypt
 
     const users = repository.create([
       {
         email: 'admin@gmail.com',
-        password: hashedPassword,  // Usa la contraseña hasheada
+        password: hashedPassword, // Usa la contraseña hasheada
         role: role,
       },
     ]);
