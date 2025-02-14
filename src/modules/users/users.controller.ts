@@ -19,6 +19,7 @@ export class UsersController {
 
   @Get(':id')
   @ApiOperation({ summary: 'Get a user by ID' })
+  @ApiBearerAuth()
   @UseGuards(JwtGuard, AdminGuard)
   findOne(@Param('id') userId: number) {
     return this.usersService.getUserById(userId);
