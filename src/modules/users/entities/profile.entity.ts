@@ -14,18 +14,6 @@ export class Profile {
   @Column()
   phone: string;
 
-  @Column()
-  height: number;
-
-  @Column()
-  weight: number;
-
-  @Column()
-  health_goal: string;
-
-  @Column()
-  activity_level: string;
-
   @Column({ nullable: true })
   profileImage: string;
 }

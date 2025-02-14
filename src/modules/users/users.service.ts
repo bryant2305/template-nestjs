@@ -36,11 +36,7 @@ export class UsersService {
         profile: {
           firstName: createUserDto.firstName,
           lastName: createUserDto.lastName,
-          activity_level: createUserDto.activity_level,
-          health_goal: createUserDto.health_goal,
           phone: createUserDto.phone,
-          weight: createUserDto.weight,
-          height: createUserDto.height,
           profileImage: createUserDto.profileImage,
         },
       };
