@@ -21,28 +21,10 @@ export class CreateUserDto {
   @IsNotEmpty()
   password: string;
 
-  @ApiProperty({ example: '200' })
-  @IsNotEmpty()
-  weight: number;
-
-  @ApiProperty({ example: '180' })
-  @IsNotEmpty()
-  height: number;
-
   @IsString()
   @ApiProperty({ example: 'phone' })
   @IsNotEmpty()
   phone: string;
-
-  @IsString()
-  @ApiProperty({ example: 'weight loss' })
-  @IsNotEmpty()
-  health_goal: string;
-
-  @IsString()
-  @ApiProperty({ example: 'low' })
-  @IsNotEmpty()
-  activity_level: string;
 
   @IsString()
   @ApiProperty({ example: 'Admin' })
