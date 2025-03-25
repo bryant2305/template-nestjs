@@ -9,22 +9,24 @@ export default class UserSeeder implements Seeder {
     dataSource: DataSource,
     factoryManager: SeederFactoryManager,
   ): Promise<any> {
-    const repository = dataSource.getRepository(User);
+    const userRepository = dataSource.getRepository(User);
     const roleRepository = dataSource.getRepository(Role);
-    const role = await roleRepository.findOne({
+    const adminRole = await roleRepository.findOne({
       where: { id: 1 },
     });
 
-    const password = 'Admin123';
-    const hashedPassword = await bcrypt.hash(password, 10); // Hashea la contraseña con bcrypt
+    const hashedAdminPassword = await bcrypt.hash(
+      process.env.ADMIN_PASSWORD, // Hashea la contraseña con bcrypt
+      10,
+    );
 
-    const users = repository.create([
+    const users = userRepository.create([
       {
-        email: 'admin@gmail.com',
-        password: hashedPassword, // Usa la contraseña hasheada
-        role: role,
+        email: process.env.ADMIN_EMAIL,
+        password: hashedAdminPassword, // Usa la contraseña hasheada
+        role: adminRole,
       },
     ]);
-    await repository.save(users);
+    await userRepository.save(users);
   }
 }
