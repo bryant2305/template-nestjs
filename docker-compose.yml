@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: nestjs-app
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    command: yarn start:prod
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    command: ["mysqld", "--default-authentication-plugin=mysql_native_password"]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
